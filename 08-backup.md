@@ -60,4 +60,4 @@
       "cd /srv && sudo tar -xf /tmp/srv01_compartido.tar" or "cd /var/www && sudo tar -xf /tmp/web01_www.tar"
    
    - **Check:**
-      "sudo ls -l /srv/compartido/ventas/importante.txt" or " "
+      "sudo ls -l /srv/compartido/ventas/importante.txt" or "sudo ls -l /var/www/web01/index.html"
