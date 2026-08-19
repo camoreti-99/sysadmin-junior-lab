@@ -55,12 +55,12 @@ graph TD
     end
 
     %% Conexiones
-    EXT <==>|NAT / Masquerade| FW_WAN
+    EXT <==>|"NAT / Masquerade"| FW_WAN
     FW_LAN <==> LAN
     FW_DMZ <==> DMZ
 
-    CLI01 -.->|HTTP:80 / SMB:445| SRV01
-    WIN01 -.->|HTTP:80 / SMB:445| SRV01
-    CLI01 ==>|HTTP:80 (nftables)| WEB01
-    MON01 ==>|Scrape:9100| WEB01
-    MON01 -.->|SSH:22 Backup| SRV01
+    CLI01 -.->|"HTTP:80 / SMB:445"| SRV01
+    WIN01 -.->|"HTTP:80 / SMB:445"| SRV01
+    CLI01 ==>|"HTTP:80 (nftables)"| WEB01
+    MON01 ==>|"Scrape:9100"| WEB01
+    MON01 -.->|"SSH:22 Backup"| SRV01
