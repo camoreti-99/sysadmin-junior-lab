@@ -246,20 +246,17 @@ graph TD
     %% CONEXIONES BLOQUEADAS POR NFTABLES
     %% =========================================================
 
-    WEB01 -.x|"🚫 DMZ → LAN<br/>Bloqueado"| SRV01
-    WEB01 -.x|"🚫 DMZ → LAN<br/>SSH :22"| SRV01
-    WEB01 -.x|"🚫 DMZ → LAN<br/>SMB :445"| SRV01
+    WEB01 -.->|"🚫 DMZ → LAN<br/>Bloqueado"| SRV01
+    WEB01 -.->|"🚫 DMZ → LAN<br/>SSH :22 bloqueado"| SRV01
+    WEB01 -.->|"🚫 DMZ → LAN<br/>SMB :445 bloqueado"| SRV01
 
-    EXT -.x|"🚫 Sin DNAT / Port Forward"| WEB01
-    EXT -.x|"🚫 Sin acceso entrante"| SRV01
-    EXT -.x|"🚫 Sin acceso entrante"| MON01
-    EXT -.x|"🚫 Sin acceso entrante"| FW_LAN
+    EXT -.->|"🚫 Sin DNAT / Port Forward"| WEB01
+    EXT -.->|"🚫 Sin acceso entrante"| SRV01
+    EXT -.->|"🚫 Sin acceso entrante"| MON01
+    EXT -.->|"🚫 Sin acceso entrante"| FW_LAN
 
-    %% =========================================================
-    %% DNS DMZ: INCOHERENCIA DEL TUTORIAL
-    %% =========================================================
-
-    WEB01 -.x|"⚠️ Configurado en tutorial<br/>DNS → 10.10.10.1:53<br/>pero nftables actual lo bloquea"| FW_LAN
+    %% DNS de la DMZ según el tutorial:
+    WEB01 -.->|"⚠️ DNS :53 → 10.10.10.1<br/>Configurado pero bloqueado por la política DMZ → LAN"| FW_LAN
 
     %% =========================================================
     %% ESTILOS
