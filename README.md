@@ -2,30 +2,125 @@
 
 Este repositorio contiene la documentación técnica, configuraciones y scripts desplegados en el laboratorio multiplataforma del ciclo ASIR.
 
+---
+
 ## Resumen Ejecutivo
+
 La infraestructura está compuesta por 6 máquinas virtuales sobre VMware Workstation Pro 17+, organizadas en tres zonas de red: WAN, LAN y DMZ.
-- **fw01:** Firewall y router principal (Debian 12) con enrutamiento, nftables, NAT y DHCP/DNS forwarding con dnsmasq.
-- **srv01:** Servidor de infraestructura en LAN (Ubuntu Server 24.04) con DNS autoritativo (bind9), Nginx Intranet y Samba.
-- **web01:** Servidor web en DMZ (Ubuntu Server 24.04) para servicios públicos.
-- **mon01:** Centro de monitorización y copias de seguridad (Ubuntu Server 24.04) con Prometheus, Grafana y restic.
-- **cli01 / win01:** Clientes de prueba en LAN (Ubuntu Desktop 24.04 y Windows 11 Pro).
 
+* **fw01:** Firewall y router principal (Debian 12) con enrutamiento, nftables, NAT y DHCP/DNS forwarding con dnsmasq.
+* **srv01:** Servidor de infraestructura en LAN (Ubuntu Server 24.04) con DNS autoritativo (bind9), Nginx Intranet y Samba.
+* **web01:** Servidor web en DMZ (Ubuntu Server 24.04) para servicios públicos.
+* **mon01:** Centro de monitorización y copias de seguridad (Ubuntu Server 24.04) con Prometheus, Grafana y restic.
+* **cli01 / win01:** Clientes de prueba en LAN (Ubuntu Desktop 24.04 y Windows 11 Pro).
 
-## Estructura del Repositorio
-- `01-arquitectura.md`
-- `02-firewall.md`
-- `03-dns-dhcp.md`
-- `04-servidor-web.md`:
-- `05-ficheros-permisos.md`
-- `06-seguridad.md`
-- `07-monitorizacion.md`
-- `08-backup.md`
-- `09-automatizacion.md`
-- `10-anexos.md`
+---
 
-- Paso a paso detallado siguiendo el principio de:
-    **Que quiero**
-    **Como lo hago**   
-    **Evidencia de que funciona**
+# 🛡️ Network Architecture and Service Map
 
+> [!NOTE]
+> Multi-tier infrastructure divided into three network zones in `fw01` firewall, a private LAN network (`10.10.10.0/24`), a demilitarized zone DMZ (`10.10.20.0/24`) and a WAN exit.
 
+---
+
+## 📐 Network Topology and Flow Diagram
+
+```mermaid
+flowchart LR
+
+    %% =====================================================
+    %% WAN
+    %% =====================================================
+
+    INTERNET["🌐 INTERNET<br/>VMware NAT"]
+
+    %% =====================================================
+    %% FIREWALL
+    %% =====================================================
+
+    FW["🔥 fw01 · FIREWALL / ROUTER<br/><br/>ens33 · WAN · DHCP<br/>ens34 · LAN · 10.10.10.1<br/>ens35 · DMZ · 10.10.20.1<br/><br/>nftables · NAT · dnsmasq"]
+
+    %% =====================================================
+    %% LAN
+    %% =====================================================
+
+    subgraph LAN["🏢 LAN · 10.10.10.0/24 · vmnet2"]
+
+        SRV["🖥️ srv01<br/>10.10.10.10<br/><br/>BIND9 · :53<br/>Nginx Intranet · :80<br/>Samba · :445<br/>SSH · :22"]
+
+        MON["📊 mon01<br/>10.10.10.20<br/><br/>Prometheus · :9090<br/>Grafana · :3000<br/>Node Exporter · :9100<br/>Restic Backup"]
+
+        CLI["💻 cli01<br/>10.10.10.x<br/>Ubuntu Desktop<br/>DHCP"]
+
+        WIN["💻 win01<br/>10.10.10.x<br/>Windows 11<br/>DHCP · RDP :3389"]
+
+    end
+
+    %% =====================================================
+    %% DMZ
+    %% =====================================================
+
+    subgraph DMZ["🔒 DMZ · 10.10.20.0/24 · vmnet3"]
+
+        WEB["🌐 web01<br/>10.10.20.10<br/><br/>Nginx Pública · :80<br/>SSH · :22<br/>Node Exporter · :9100"]
+
+    end
+
+    %% =====================================================
+    %% HOST / VMWARE
+    %% =====================================================
+
+    HOST["🖥️ HOST / VMware<br/><br/>vmnet8 · NAT<br/>vmnet2 · LAN<br/>vmnet3 · DMZ"]
+
+    %% =====================================================
+    %% TOPOLOGÍA PRINCIPAL
+    %% =====================================================
+
+    INTERNET -->|"01 · WAN / NAT"| FW
+    FW -->|"02 · LAN"| LAN
+    FW -->|"03 · DMZ"| DMZ
+
+    HOST -.->|"04 · vmnet2"| LAN
+    HOST -.->|"04 · vmnet3"| DMZ
+
+    %% =====================================================
+    %% CONEXIONES INTERNAS SIMPLIFICADAS
+    %% =====================================================
+
+    CLI --- SRV
+    WIN --- SRV
+    MON --- SRV
+
+    %% =====================================================
+    %% LAN → DMZ
+    %% =====================================================
+
+    LAN -.->|"05 · LAN → DMZ"| FW
+
+    %% =====================================================
+    %% POLÍTICA DMZ
+    %% =====================================================
+
+    WEB -.->|"06 · DMZ → LAN<br/>BLOQUEADO"| FW
+
+    %% =====================================================
+    %% ESTILOS
+    %% =====================================================
+
+    classDef firewall fill:#ffd6d6,stroke:#b00000,stroke-width:3px,color:#111
+    classDef server fill:#d9ead3,stroke:#38761d,stroke-width:2px,color:#111
+    classDef monitor fill:#e4d7f5,stroke:#674ea7,stroke-width:2px,color:#111
+    classDef client fill:#d9eaf7,stroke:#1155cc,stroke-width:2px,color:#111
+    classDef dmz fill:#fce5cd,stroke:#e69138,stroke-width:2px,color:#111
+    classDef host fill:#eeeeee,stroke:#666666,stroke-width:2px,color:#111
+
+    class FW firewall
+    class SRV server
+    class MON monitor
+    class CLI,WIN client
+    class WEB dmz
+    class HOST,INTERNET host
+    class CLI01,WIN01 client
+    class WEB01 dmz
+    class EXT,DNS8,DNS11,NAT,HOSTPC,VMNET8,VMNET2,VMNET3 wan
+    class LAN_SW,DMZ_SW switch
