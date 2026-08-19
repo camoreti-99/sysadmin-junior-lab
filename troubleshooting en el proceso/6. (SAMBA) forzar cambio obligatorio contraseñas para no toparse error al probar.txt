@@ -1,0 +1,2 @@
+sudo chage -d 1 sysadmin
+sudo smbpasswd sysadmin

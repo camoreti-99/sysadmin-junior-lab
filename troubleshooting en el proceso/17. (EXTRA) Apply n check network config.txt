@@ -1,0 +1,7 @@
+sudo netplan generate
+sudo netplan apply
+
+
+ip a
+ip route
+resolvectl status

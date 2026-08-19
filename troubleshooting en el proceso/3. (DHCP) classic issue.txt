@@ -1,0 +1,21 @@
+Por qué falla: Cuando cli01 pide una IP por DHCP no tiene ninguna dirección asignada todavía (su IP de origen es 0.0.0.0). Como la regla exige que la IP de origen pertenezca al rango 10.10.10.0/24, nftables descarta el paquete antes de que llegue a dnsmasq.
+
+# Cambiar esto:
+iif "ens34" udp dport 67 ip saddr 10.10.10.0/24 accept
+
+# Por esto:
+iif "ens34" udp dport 67 accept
+
+sudo nft -f /etc/nftables.conf
+
+
+En cli01, forzar renovación interfaz de red:
+
+sudo dhclient -r
+sudo dhclient -v
+
+or just reboot
+
+sudo systemctl restart NetworkManager
+
+Ejecuta ip a. Ahora debería aparecer la IP dentro del rango 10.10.10.50-200.  

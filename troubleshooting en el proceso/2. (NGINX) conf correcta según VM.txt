@@ -1,0 +1,32 @@
+/etc/nginx/sites-available/intranet
+
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    server_name _;
+
+    root /var/www/intranet;
+    index index.html index.htm;
+
+    location / {
+        index index.html;
+    }
+}
+
+
+/etc/nginx/sites-available/web01 (OG configuration)
+
+
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name web01.lab.local www.lab.local 10.10.20.10;
+    root /var/www/web01;
+    index index.html;
+
+    location / {
+        try_files $uri$uri/ =404;
+    }
+}

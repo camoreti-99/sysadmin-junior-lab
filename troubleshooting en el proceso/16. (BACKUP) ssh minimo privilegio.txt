@@ -1,0 +1,1 @@
+command="sudo /usr/bin/tar -cf - /srv/compartido" ssh-ed25519 AAAAC3NzaC1lZDI1NTE5... backup@mon01

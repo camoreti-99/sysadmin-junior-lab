@@ -1,0 +1,2 @@
+sudo cp -r ~/.ssh /root/
+sudo chown -R root:root /root/.ssh

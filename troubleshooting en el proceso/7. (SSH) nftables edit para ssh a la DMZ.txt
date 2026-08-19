@@ -1,0 +1,3 @@
+nft add rule inet filter forward iif "ens34" oif "ens35" tcp dport 22 accept
+
+nft list ruleset > /etc/nftables.conf
