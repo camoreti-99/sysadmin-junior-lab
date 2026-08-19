@@ -31,6 +31,7 @@ Packet forwarder active in `fw01` (Screenshot - Firewall-ip-forward_1, Firewall-
 
 ## 📐 Network Topology and Flow Diagram
 
+```mermaid
 flowchart LR
 
     %% =====================================================
