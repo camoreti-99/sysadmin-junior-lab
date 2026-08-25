@@ -54,6 +54,10 @@ flowchart LR
 
         WIN["💻 win01<br/>10.10.10.x<br/>Windows 11<br/>DHCP · RDP :3389"]
 
+        DC["🖥️ dc01<br/>10.10.10.30<br/><br/>Active Directory · AD DS<br/>DNS · :53<br/>Kerberos · :88<br/>SMB · :445<br/>Server Core"]
+
+        WIN2["💻 win02<br/>10.10.10.102<br/><br/>Windows 11 Pro<br/>AD Domain Client<br/>DHCP / Domain"]
+
     end
 
     %% =====================================================
@@ -84,12 +88,18 @@ flowchart LR
     HOST -.->|"04 · vmnet3"| DMZ
 
     %% =====================================================
-    %% CONEXIONES INTERNAS SIMPLIFICADAS
+    %% CONEXIONES INTERNAS — LAB ORIGINAL
     %% =====================================================
 
     CLI --- SRV
     WIN --- SRV
     MON --- SRV
+
+    %% =====================================================
+    %% CONEXIÓN — AMPLIACIÓN AD
+    %% =====================================================
+
+    WIN2 -->|"AD / DNS / GPO"| DC
 
     %% =====================================================
     %% LAN → DMZ
@@ -115,12 +125,8 @@ flowchart LR
     classDef host fill:#eeeeee,stroke:#666666,stroke-width:2px,color:#111
 
     class FW firewall
-    class SRV server
+    class SRV,DC server
     class MON monitor
-    class CLI,WIN client
+    class CLI,WIN,WIN2 client
     class WEB dmz
     class HOST,INTERNET host
-    class CLI01,WIN01 client
-    class WEB01 dmz
-    class EXT,DNS8,DNS11,NAT,HOSTPC,VMNET8,VMNET2,VMNET3 wan
-    class LAN_SW,DMZ_SW switch
