@@ -151,3 +151,23 @@
   * `"Get-ADGroupMember GG_Ventas"`, `"Get-ADGroupMember GG_Desarrollo"`, `"Get-ADGroupMember GG_IT"`
 
   * `(Screenshot - windows-server_22)`
+
+      ---
+
+### 11. **Add DNS forwarder (lab.local) - [do 12-Active-Directory-Client (win02) first, recommended]**
+
+* **How:**
+  * `"Get-Service DNS"`
+  * `"Add-DnsServerConditionalForwarderZone ` -Name "lab.local" ` -MasterServers 10.10.10.10 ` -PassThru"`, `"Get-DnsServerZone"`
+  * `(Screenshot - Active-Directory-DNS-add_1)`
+
+* **Check:**
+  * `"Test-NetConnection 10.10.10.10 -Port 53"`, `"Resolve-DnsName srv01.lab.local -Server 10.10.10.10"`, `"Resolve-DnsName web01.lab.local -Server 10.10.10.10"`
+  * `"Get-DnsServerZone -Name "lab.local""`
+
+  * `(Screenshots - Active-Directory-DNS-add_2, Active-Directory-DNS-add_3)`
+
+  * Win02 - `"Test-NetConnection 10.10.10.10 -Port 80"`, `"Test-NetConnection 10.10.20.10 -Port 80"`, `"Test-NetConnection srv01.lab.local -Port 80"`, `"Test-NetConnection web01.lab.local -Port 80"`
+  * Win02 - `"nslookup srv01.lab.local"`, `"nslookup web01.lab.local"`
+
+  * `(Screenshots - Active-Directory-DNS-add_4, Active-Directory-DNS-add_5, Active-Directory-DNS-add_6)
