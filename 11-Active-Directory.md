@@ -170,4 +170,4 @@
   * Win02 - `"Test-NetConnection 10.10.10.10 -Port 80"`, `"Test-NetConnection 10.10.20.10 -Port 80"`, `"Test-NetConnection srv01.lab.local -Port 80"`, `"Test-NetConnection web01.lab.local -Port 80"`
   * Win02 - `"nslookup srv01.lab.local"`, `"nslookup web01.lab.local"`
 
-  * `(Screenshots - Active-Directory-DNS-add_4, Active-Directory-DNS-add_5, Active-Directory-DNS-add_6)
+  * `(Screenshots - Active-Directory-DNS-add_4, Active-Directory-DNS-add_5, Active-Directory-DNS-add_6, Active-Directory-DNS-add_7)
