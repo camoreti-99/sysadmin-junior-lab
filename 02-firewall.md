@@ -22,9 +22,13 @@
 ### 2. **Config nftables (fw01)**
 
 * **How:**
-  * `"sudo apt update && sudo apt install nftables -y"` and `"sudo nano /etc/nftables.conf"`
+  * `"sudo apt update && sudo apt install nftables -y"`
+  * `"sudo nano /etc/nftables.conf"`
   * `(Screenshots - Firewall-nftables_1, Firewall-nftables_2)`
 
 * **Check:**
-  * `"nft list ruleset"` -> `"systemctl enable nftables"` -> `"systemctl start nftables"` and `"nft list ruleset > /etc/nftables.conf"` to make it permanent.
+  * `"nft list ruleset"`
+  * `"systemctl enable nftables"`
+  * `"systemctl start nftables"`
+  * `"nft list ruleset > /etc/nftables.conf"` to make it permanent.
   * `(Screenshot - Firewall-connectivity_1)`
