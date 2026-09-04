@@ -13,8 +13,10 @@
 ### 2. **Config node_exporter (mon01 but repeat in fw01, srv01 & web01)**
 
 * **How:**
-  * `"cd /tmp" -> "wget https://github.com/prometheus/node_exporter/releases/download/v1.8.2/node_exporter-1.8.2.linux-amd64.tar.gz"`
-  * `"sudo tar xvfz node_exporter-1.8.2.linux-amd64.tar.gz" -> "sudo cp node_exporter-1.8.2.linux-amd64/node_exporter /usr/local/bin/"`
+  * `"cd /tmp"`
+  * `"wget https://github.com/prometheus/node_exporter/releases/download/v1.8.2/node_exporter-1.8.2.linux-amd64.tar.gz"`
+  * `"sudo tar xvfz node_exporter-1.8.2.linux-amd64.tar.gz"`
+  * `"sudo cp node_exporter-1.8.2.linux-amd64/node_exporter /usr/local/bin/"`
   * `"sudo useradd --no-create-home --shell /bin/false node_exporter"`
   * `(Screenshot - Node-exporter_1)`
   * `"sudo systemctl daemon-reload"`
@@ -40,7 +42,8 @@
 ### 3. **Config Prometheus (mon01):**
 
 * **How:**
-  * `"cd /tmp" -> "wget https://github.com/prometheus/prometheus/releases/download/v2.54.1/prometheus-2.54.1.linux-amd64.tar.gz"`
+  * `"cd /tmp"`
+  * `"wget https://github.com/prometheus/prometheus/releases/download/v2.54.1/prometheus-2.54.1.linux-amd64.tar.gz"`
   * `"sudo tar xvfz prometheus-2.54.1.linux-amd64.tar.gz"`
   * `"sudo mkdir -p /etc/prometheus"`
   * `"sudo mkdir -p /var/lib/prometheus"`
@@ -69,7 +72,8 @@
   * `"sudo apt install -y adduser libfontconfig1 musl"`
   * `"wget -q -O - https://packages.grafana.com/gpg.key | gpg --dearmor | sudo tee /etc/apt/keyrings/grafana.gpg > /dev/null"`
   * `"echo "deb [signed-by=/etc/apt/keyrings/grafana.gpg] https://packages.grafana.com/oss/deb stable main" | sudo tee /etc/apt/sources.list.d/grafana.list"`
-  * `"sudo apt update" -> "sudo apt install grafana -y"`
+  * `"sudo apt update"`
+  * `"sudo apt install grafana -y"`
   * `"sudo systemctl enable grafana-server"`
   * `"sudo systemctl start grafana-server"`
   * `"sudo systemctl status grafana-server"`
