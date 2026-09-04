@@ -5,9 +5,14 @@
 ### 1. **Config dnsmasq (fw01)**
 
 * **How:**
-  * `"sudo apt install dnsmasq -y"` -> `"sudo cp /etc/dnsmasq.conf /etc/dnsmasq.conf.bak"` -> `"sudo sh -c 'echo "" > /etc/dnsmasq.conf'"` -> `"sudo nano /etc/dnsmasq.conf"`
+  * `"sudo apt install dnsmasq -y"`
+  * `"sudo cp /etc/dnsmasq.conf /etc/dnsmasq.conf.bak"`
+  * `"sudo sh -c 'echo "" > /etc/dnsmasq.conf'"`
+  * `"sudo nano /etc/dnsmasq.conf"`
   * `(Screenshot - dnsmasq_1)`
-  * `"systemctl restart dnsmasq"` -> `"systemctl enable dnsmasq"` -> `"systemctl status dnsmasq"`
+  * `"systemctl restart dnsmasq"`
+  * `"systemctl enable dnsmasq"`
+  * `"systemctl status dnsmasq"`
 
 * **Check:**
   * `"sudo ss -ulnp | grep dnsmasq"`
@@ -40,7 +45,10 @@
   * `"sudo named-checkconf /etc/bind/named.conf.local"`
   * `"sudo named-checkzone lab.local /etc/bind/zones/db.lab.local"`
   * `"sudo named-checkzone 10.10.10.in-addr.arpa /etc/bind/zones/db.10.10.10"`
-  * `"sudo systemctl restart bind9"` -> `"sudo systemctl enable bind9"` -> `"sudo systemctl status bind9"`
+  * `"sudo systemctl restart bind9"`
+  * `"sudo systemctl enable bind9"`
+  * `"sudo systemctl status bind9"`
+  
   * Everything must say status: NOERROR
   * `dig @127.0.0.1 srv01.lab.local`
   * `dig @127.0.0.1 web01.lab.local`
@@ -54,7 +62,8 @@
   * `(Screenshots - Client_1, Client_2)`
   * Possible trouble (force DNS) -> `(Screenshot - Client_3)`
   * `(Screenshots, Client_4, Client_5, Client_6, Client_7, Client_8)`
-  * `"sudo apt update"` -> `"sudo apt install nmap dnsutils smbclient curl htop traceroute -y"`
+  * `"sudo apt update"`
+  * `"sudo apt install nmap dnsutils smbclient curl htop traceroute -y"`
 
 ---
 
