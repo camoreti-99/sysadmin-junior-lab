@@ -135,7 +135,7 @@
 ### 10. **Create Users and add 'em to groups**
 
 * **How:**
-  * `"$Password = Read-Host "Temp passwrd" -AsSecureString"` -> Password required with CAPS symbols and numbers, othetwise when create user it won't work
+  * `"$Password = Read-Host "Temp passwrd" -AsSecureString"` -> Password required with CAPS symbols and numbers, othetwise when creating user it won't work
   * `"New-ADUser ` -Name "Carlos Amoretti" ` -SamAccountName "carlos.amoretti" ` -UserPrincipalName "carlos.amoretti@amoretti.local" ` -AccountPassword $Password ` -Enabled $true ` -Path "OU=Ventas,OU=Usuarios,OU=EMPRESA,DC=amoretti,DC=local""`
   * `"New-ADUser ` -Name "Ana Garcia" ` -SamAccountName "ana.garcia" ` -UserPrincipalName "ana.garcia@amoretti.local" ` -AccountPassword $Password ` -Enabled $true ` -Path "OU=Desarrollo,OU=Usuarios,OU=EMPRESA,DC=amoretti,DC=local""`
   * `"New-ADUser ` -Name "Ana Garcia" ` -SamAccountName "it.admin" ` -UserPrincipalName "it.admin@amoretti.local" ` -AccountPassword $Password ` -Enabled $true ` -Path "OU=IT,OU=Usuarios,OU=EMPRESA,DC=amoretti,DC=local""`
