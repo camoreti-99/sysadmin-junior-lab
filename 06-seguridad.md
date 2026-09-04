@@ -39,7 +39,8 @@
 * **How:**
   * `(After copy ssh id, turn off passwordauthentication and then try to connect)`
   * `ssh-keygen -t ed25519 -C "backup@mon01"`
-  * `(No passphrase [or yes])` -> `"ssh-copy-id sysadmin@10.10.10.10"`
+  * `(No passphrase [or yes])`
+  * `"ssh-copy-id sysadmin@10.10.10.10"`
   * `"ssh-copy-id sysadmin@10.10.20.10"`
 
 * **Check:**
