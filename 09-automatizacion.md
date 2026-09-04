@@ -20,7 +20,8 @@
 
 * **How:**
   * `(Screenshot - Services-script_1)`
-  * `"sudo chmod +x /usr/local/bin/check_services.sh" -> "sudo crontab -e"`
+  * `"sudo chmod +x /usr/local/bin/check_services.sh"`
+  * `"sudo crontab -e"`
   * `(Screenshot - Services-script_2)`
 
 * **Check:**
