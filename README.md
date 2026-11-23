@@ -26,25 +26,14 @@ La infraestructura está compuesta por 6 máquinas virtuales sobre VMware Workst
 ## 📐 Network Topology and Flow Diagram
 
 ```mermaid
-flowchart LR
-
-    %% =====================================================
-    %% WAN
-    %% =====================================================
+flowchart TB
 
     INTERNET["🌐 INTERNET<br/>VMware NAT"]
 
-    %% =====================================================
-    %% FIREWALL
-    %% =====================================================
-
     FW["🔥 fw01 · FIREWALL / ROUTER<br/><br/>ens33 · WAN · DHCP<br/>ens34 · LAN · 10.10.10.1<br/>ens35 · DMZ · 10.10.20.1<br/><br/>nftables · NAT · dnsmasq"]
 
-    %% =====================================================
-    %% LAN
-    %% =====================================================
-
     subgraph LAN["🏢 LAN · 10.10.10.0/24 · vmnet2"]
+        direction TB
 
         SRV["🖥️ srv01<br/>10.10.10.10<br/><br/>BIND9 · :53<br/>Nginx Intranet · :80<br/>Samba · :445<br/>SSH · :22"]
 
@@ -58,64 +47,28 @@ flowchart LR
 
         WIN2["💻 win02<br/>10.10.10.102<br/><br/>Windows 11 Pro<br/>AD Domain Client<br/>DHCP / Domain"]
 
+        CLI --- SRV
+        WIN --- SRV
+        MON --- SRV
+        WIN2 -->|"AD / DNS / GPO"| DC
     end
-
-    %% =====================================================
-    %% DMZ
-    %% =====================================================
 
     subgraph DMZ["🔒 DMZ · 10.10.20.0/24 · vmnet3"]
+        direction TB
 
         WEB["🌐 web01<br/>10.10.20.10<br/><br/>Nginx Pública · :80<br/>SSH · :22<br/>Node Exporter · :9100"]
-
     end
-
-    %% =====================================================
-    %% HOST / VMWARE
-    %% =====================================================
 
     HOST["🖥️ HOST / VMware<br/><br/>vmnet8 · NAT<br/>vmnet2 · LAN<br/>vmnet3 · DMZ"]
 
-    %% =====================================================
-    %% TOPOLOGÍA PRINCIPAL
-    %% =====================================================
-
+    %% Flujos numerados en orden (01 -> 06)
     INTERNET -->|"01 · WAN / NAT"| FW
     FW -->|"02 · LAN"| LAN
     FW -->|"03 · DMZ"| DMZ
-
     HOST -.->|"04 · vmnet2"| LAN
     HOST -.->|"04 · vmnet3"| DMZ
-
-    %% =====================================================
-    %% CONEXIONES INTERNAS — LAB ORIGINAL
-    %% =====================================================
-
-    CLI --- SRV
-    WIN --- SRV
-    MON --- SRV
-
-    %% =====================================================
-    %% CONEXIÓN — AMPLIACIÓN AD
-    %% =====================================================
-
-    WIN2 -->|"AD / DNS / GPO"| DC
-
-    %% =====================================================
-    %% LAN → DMZ
-    %% =====================================================
-
-    LAN -.->|"05 · LAN → DMZ"| FW
-
-    %% =====================================================
-    %% POLÍTICA DMZ
-    %% =====================================================
-
-    WEB -.->|"06 · DMZ → LAN<br/>BLOQUEADO"| FW
-
-    %% =====================================================
-    %% ESTILOS
-    %% =====================================================
+    LAN -.->|"05 · LAN -> DMZ"| DMZ
+    WEB -.->|"06 · DMZ -> LAN BLOQUEADO"| FW
 
     classDef firewall fill:#ffd6d6,stroke:#b00000,stroke-width:3px,color:#111
     classDef server fill:#d9ead3,stroke:#38761d,stroke-width:2px,color:#111
